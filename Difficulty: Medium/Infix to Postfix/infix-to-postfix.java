@@ -21,56 +21,51 @@ System.out.println("~");
 
 
 class Solution {
-    // Function to return precedence of an operator
-    private static int precedence(char ch) {
-        switch (ch) {
-            case '+':
-            case '-':
-                return 1;
-            case '*':
-            case '/':
-                return 2;
-            case '^':
-                return 3;
-            default:
-                return -1;
-        }
+    // Function to get the priority of operators
+    public static int priority(char op) {
+        if (op == '+' || op == '-') return 1;
+        if (op == '*' || op == '/') return 2;
+        if (op == '^') return 3;
+        return 0;
     }
 
     // Function to convert an infix expression to a postfix expression
     public static String infixToPostfix(String exp) {
-        StringBuilder result = new StringBuilder();
-        Stack<Character> stack = new Stack<>();
+        StringBuilder ans = new StringBuilder();
+        Stack<Character> st = new Stack<>();
 
-        for (char c : exp.toCharArray()) {
-            // If the character is an operand, add it to the result
-            if (Character.isLetterOrDigit(c)) {
-                result.append(c);
+        for (int i = 0; i < exp.length(); i++) {
+            char ch = exp.charAt(i);
+
+            // If it is an operand, add it to the result
+            if (Character.isLetterOrDigit(ch)) {
+                ans.append(ch);
             }
-            // If the character is '(', push it to the stack
-            else if (c == '(') {
-                stack.push(c);
+            // If it is an opening bracket, push it to the stack
+            else if (ch == '(') {
+                st.push(ch);
             }
-            // If the character is ')', pop until '(' is found
-            else if (c == ')') {
-                while (!stack.isEmpty() && stack.peek() != '(') {
-                    result.append(stack.pop());
+            // If it is a closing bracket, pop until an opening bracket is found
+            else if (ch == ')') {
+                while (!st.isEmpty() && st.peek() != '(') {
+                    ans.append(st.pop());
                 }
-                stack.pop(); // Remove '(' from the stack
+                st.pop(); // Remove the opening bracket
             }
-            // If an operator is encountered
+            // If it is an operator
             else {
-                while (!stack.isEmpty() && precedence(c) <= precedence(stack.peek())) {
-                    result.append(stack.pop());
+                while (!st.isEmpty() && priority(st.peek()) >= priority(ch)) {
+                    ans.append(st.pop());
                 }
-                stack.push(c);
+                st.push(ch);
             }
         }
 
         // Pop all remaining operators from the stack
-        while (!stack.isEmpty()) {
-            result.append(stack.pop());
+        while (!st.isEmpty()) {
+            ans.append(st.pop());
         }
-        return result.toString();
+
+        return ans.toString();
     }
 }
