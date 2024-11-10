@@ -62,10 +62,12 @@ class Solution {
         // Sort jobs by profit in descending order
         Arrays.sort(jobs, (a, b) -> b.profit - a.profit);
 
-        // Maximum deadline to determine the time slots
+        // Find the maximum deadline to determine the time slots
         int maxDeadline = 0;
-        for (Job job : jobs) {
-            maxDeadline = Math.max(maxDeadline, job.deadline);
+        for (int i = 0; i < n; i++) {
+            if (jobs[i].deadline > maxDeadline) {
+                maxDeadline = jobs[i].deadline;
+            }
         }
 
         // Array to track used time slots
@@ -73,13 +75,14 @@ class Solution {
 
         int jobsDone = 0, totalProfit = 0;
 
-        for (Job job : jobs) {
+        // Loop through each job
+        for (int i = 0; i < n; i++) {
             // Find an available slot before the deadline
-            for (int i = job.deadline - 1; i >= 0; i--) {
-                if (!slots[i]) {
-                    slots[i] = true; // Mark slot as filled
+            for (int j = jobs[i].deadline - 1; j >= 0; j--) {
+                if (!slots[j]) {
+                    slots[j] = true; // Mark slot as filled
                     jobsDone++;
-                    totalProfit += job.profit; // Add the profit
+                    totalProfit += jobs[i].profit; // Add the profit
                     break;
                 }
             }
