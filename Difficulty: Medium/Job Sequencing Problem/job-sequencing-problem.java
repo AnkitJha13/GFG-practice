@@ -59,35 +59,38 @@ class Job {
 class Solution {
     // Function to find the maximum profit and the number of jobs done.
     int[] JobScheduling(Job jobs[], int n) {
-        // Sort jobs by profit in descending order
-        Arrays.sort(jobs, (a, b) -> b.profit - a.profit);
+        // Sort jobs in descending order of profit
+        Arrays.sort(jobs, (a, b) -> (b.profit - a.profit));
 
-        // Find the maximum deadline to determine the time slots
+        // Find the maximum deadline to determine the size of the result array
         int maxDeadline = 0;
         for (int i = 0; i < n; i++) {
-            if (jobs[i].deadline > maxDeadline) {
-                maxDeadline = jobs[i].deadline;
-            }
+            maxDeadline = Math.max(maxDeadline, jobs[i].deadline);
         }
 
-        // Array to track used time slots
-        boolean[] slots = new boolean[maxDeadline];
+        // Initialize the result array to keep track of scheduled jobs
+        int[] result = new int[maxDeadline + 1];
+        Arrays.fill(result, -1); // -1 means slot is empty
 
-        int jobsDone = 0, totalProfit = 0;
+        // Variables to store the count of jobs and total profit
+        int countJobs = 0, jobProfit = 0;
 
-        // Loop through each job
+        // Try to schedule each job
         for (int i = 0; i < n; i++) {
-            // Find an available slot before the deadline
-            for (int j = jobs[i].deadline - 1; j >= 0; j--) {
-                if (!slots[j]) {
-                    slots[j] = true; // Mark slot as filled
-                    jobsDone++;
-                    totalProfit += jobs[i].profit; // Add the profit
-                    break;
+            // Try to find a free slot for the current job (from its deadline backward)
+            for (int j = jobs[i].deadline; j > 0; j--) {
+                // If the slot is empty, schedule the job
+                if (result[j] == -1) {
+                    result[j] = i; // Mark the job as scheduled
+                    countJobs++; // Increase job count
+                    jobProfit += jobs[i].profit; // Add profit
+                    break; // Break once the job is scheduled
                 }
             }
         }
 
-        return new int[]{jobsDone, totalProfit};
+        // Return the result as an array with the number of jobs and total profit
+        return new int[] { countJobs, jobProfit };
     }
 }
+
