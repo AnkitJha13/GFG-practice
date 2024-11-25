@@ -45,10 +45,10 @@ class Solution {
         deleteAtIndex(s, midIndex);
     }
     
-    // Helper function to delete the element at the specified index
-    private void deleteAtIndex(Stack<Integer> s, int index) {
+    
+    private void deleteAtIndex(Stack<Integer> s, int midIndex) {
         // Base case: if we've reached the index to delete
-        if (index == 0) {
+        if (midIndex == 0) {
             s.pop();  // Remove the middle element
             return;
         }
@@ -56,8 +56,8 @@ class Solution {
         // Pop the top element
         int topElement = s.pop();
         // Recursive call to delete the element at the next index
-        deleteAtIndex(s, index - 1);
-        // Push the popped element back onto the stack
+        deleteAtIndex(s, midIndex - 1);
+        // Push the popped element back onto the stack only occur after base case is reached 
         s.push(topElement);
     }
 }
