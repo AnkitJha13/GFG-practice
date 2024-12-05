@@ -1,44 +1,58 @@
 //{ Driver Code Starts
+// Initial Template for Java
+
 import java.io.*;
 import java.util.*;
 
 class GFG {
-    public static void main(String args[]) throws IOException {
-        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
-        int t = Integer.parseInt(read.readLine());
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t;
+        t = Integer.parseInt(br.readLine());
         while (t-- > 0) {
-            String S[] = read.readLine().split(" ");
-            Long A = Long.parseLong(S[0]);
-            Long B = Long.parseLong(S[1]);
 
-            Solution ob = new Solution();
-            Long[] ptr = ob.lcmAndGcd(A, B);
+            int a;
+            a = Integer.parseInt(br.readLine());
 
-            System.out.print(ptr[0]);
-            System.out.print(" ");
-            System.out.println(ptr[1]);
+            int b;
+            b = Integer.parseInt(br.readLine());
 
+            Solution obj = new Solution();
+            int[] ans = obj.lcmAndGcd(a, b);
+            System.out.println(ans[0] + " " + ans[1]);
             System.out.println("~");
         }
     }
 }
+
+
 // } Driver Code Ends
 
+// User function Template for Java
 
 class Solution {
-    static Long[] lcmAndGcd(Long a, Long b) {
-        Long gcd = gcd(a, b);
-        Long lcm = (a * b) / gcd; // LCM can be calculated using GCD
-        return new Long[]{lcm, gcd};
-    }
-
-    // Helper method to calculate GCD using the Euclidean algorithm
-    static Long gcd(Long a, Long b) {
+    public static int gcd(int a, int b) {
+        // Compute GCD using Euclid's algorithm
         while (b != 0) {
-            Long temp = b;
+            int temp = b;
             b = a % b;
             a = temp;
         }
         return a;
     }
+
+    public static int[] lcmAndGcd(int a, int b) {
+        // Compute GCD
+        int gcd = gcd(a, b);
+        
+        // Compute LCM using the formula LCM * GCD = a * b
+        int lcm = (a / gcd) * b; // Avoid overflow by dividing first
+        
+        return new int[]{lcm, gcd};
+    }
 }
+
+
+//{ Driver Code Starts.
+
+// } Driver Code Ends
