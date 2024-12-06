@@ -56,28 +56,23 @@ class Main {
 // User function Template for Java
 
 class Solution {
-    // Function to return a list containing the intersection of two arrays
+    // Function to return a list containing the intersection of two arrays.
     static ArrayList<Integer> intersection(int arr1[], int arr2[]) {
-        ArrayList<Integer> intersection = new ArrayList<>();
+        // add your code here
+        Set<Integer> set2 = new HashSet<>();
+        for (int num : arr2) {
+            set2.add(num);
+        }
         
-        int i = 0, j = 0;
-        
-        // Traverse both arrays using two pointers
-        while (i < arr1.length && j < arr2.length) {
-            if (arr1[i] == arr2[j]) {
-                // Add to the result if it's not already present (no duplicates)
-                if (intersection.isEmpty() || intersection.get(intersection.size() - 1) != arr1[i]) {
-                    intersection.add(arr1[i]);
-                }
-                i++;
-                j++;
-            } else if (arr1[i] < arr2[j]) {
-                i++; // Move pointer i if arr1[i] is smaller
-            } else {
-                j++; // Move pointer j if arr2[j] is smaller
+        // Use a LinkedHashSet to store the intersection while preserving order
+        LinkedHashSet<Integer> intersection = new LinkedHashSet<>();
+        for (int num : arr1) {
+            if (set2.contains(num)) {
+                intersection.add(num);
             }
         }
-
-        return intersection; // Return the result
+        
+        // Convert the LinkedHashSet to an ArrayList
+        return new ArrayList<>(intersection);
     }
 }
