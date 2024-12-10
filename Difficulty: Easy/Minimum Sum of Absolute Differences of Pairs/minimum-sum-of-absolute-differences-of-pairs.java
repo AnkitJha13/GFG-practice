@@ -43,7 +43,7 @@ class Solution {
         
         long minDiff = 0;
         
-        for(int i=0;i<A.length;i++){
+        for(int i=0;i<B.length;i++){
             minDiff += Math.abs(A[i] - B[i]);
         }
         
