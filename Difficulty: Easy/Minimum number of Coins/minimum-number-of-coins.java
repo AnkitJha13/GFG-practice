@@ -34,16 +34,13 @@ class Solution{
     {
         // code here
         Integer[] coins = {1, 2, 5, 10, 20, 50, 100, 200, 500, 2000 };
-        Arrays.sort(coins, Collections.reverseOrder());
         
         List<Integer> ans = new ArrayList<>();
         
-        for(int i=0;i<coins.length;i++){
-            if(coins[i] <= N){
-                while(coins[i] <= N){
-                    ans.add(coins[i]);
-                    N -= coins[i];
-                }
+        for(int i=coins.length-1;i>=0;i--){
+            while(coins[i] <= N){
+                ans.add(coins[i]);
+                N -= coins[i];
             }
         }
         return ans;
