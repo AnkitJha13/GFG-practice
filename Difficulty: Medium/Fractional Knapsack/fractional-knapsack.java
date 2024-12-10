@@ -41,34 +41,32 @@ class GfG {
 class Solution {
     // Function to get the maximum total value in the knapsack.
     double fractionalKnapsack(List<Integer> val, List<Integer> wt, int capacity) {
-        // Create a 2D array to store index and value-to-weight ratio
-        double[][] ratio = new double[val.size()][2];
-
-        // Fill the ratio array
-        for (int i = 0; i < val.size(); i++) {
-            ratio[i][0] = i; // Index of the item
-            ratio[i][1] = val.get(i) / (double) wt.get(i); // Value-to-weight ratio
+        // code here
+        double ratio[][] = new double[val.size()][2];
+        
+        for(int i=0;i<val.size();i++){
+            ratio[i][0] = i;
+            ratio[i][1] = val.get(i)/(double) wt.get(i);
         }
-
-        // Sort the ratio array in ascending order based on the value-to-weight ratio
+        
         Arrays.sort(ratio, Comparator.comparingDouble(o -> o[1]));
-
-        double finalValue = 0; // To store the maximum value we can carry
-
-        // Iterate through items from the highest ratio to the lowest
-        for (int i = ratio.length - 1; i >= 0; i--) {
-            int idx = (int) ratio[i][0]; // Get the original index of the item
-            if (capacity >= wt.get(idx)) {
-                // If the full weight of the item can be taken
-                finalValue += val.get(idx); // Add its full value
-                capacity -= wt.get(idx); // Decrease capacity
-            } else {
-                // If only a fraction of the item can be taken
-                finalValue += ratio[i][1] * capacity; // Add the fractional value
-                break; // Knapsack is full
+        
+        double finalValue = 0;
+        
+        for(int i=ratio.length-1;i>=0;i--){
+            int idx = (int) ratio[i][0];
+            if(capacity >= wt.get(idx)){
+                finalValue += val.get(idx);
+                capacity -= wt.get(idx);
+            }
+            else{
+                finalValue += capacity * ratio[i][1];
+                break;
             }
         }
-
-        return finalValue; // Return the maximum value
+        
+        return finalValue;
+        
+        
     }
 }
