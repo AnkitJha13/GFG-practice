@@ -1,71 +1,64 @@
 //{ Driver Code Starts
-import java.util.*;
 import java.io.*;
-class Reversing{
-    public static void main(String[] args)throws IOException{
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        
-        //Reading total number of testcases
-        int t=Integer.parseInt(br.readLine());
-        while(t-->0){
-            
-            //Reading total number of elements
-            int n=Integer.parseInt(br.readLine());
-            
-            //Creating a Queue
-            Queue<Integer> q=new LinkedList<>();
-            
-            //Reading all the elements in a string
-            String s=br.readLine();
-            
-            //Spliting the string into different
-            //string separated by space
-            String[] a=s.split(" ");
-            
-            //adding all the elements to the Queue
-            for(String b:a){
-                int x=Integer.parseInt(b);
-                q.add(x);
+import java.util.*;
+
+class Reversing {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        // Reading total number of test cases
+        int t = Integer.parseInt(br.readLine());
+        while (t-- > 0) {
+
+            // Creating a Queue
+            Queue<Integer> queue = new LinkedList<>();
+
+            // Reading all the elements as a string
+            String input = br.readLine();
+
+            // Splitting the string into separate elements based on spaces
+            String[] elements = input.split(" ");
+
+            // Adding all the elements to the Queue
+            for (String element : elements) {
+                int value = Integer.parseInt(element);
+                queue.add(value);
             }
-            
-            //Creating an object of class Geeks
-            GfG g=new GfG();
-            
-            //calling rev method of class Geeks
-            q=g.rev(q);
-            
-            //printing the elements of the queue
-            while(!q.isEmpty()){
-                int x=q.peek();
-                q.poll();
-                System.out.print(x+" ");
+
+            // Creating an object of class Solution
+            Solution solution = new Solution();
+
+            // Calling reverseQueue method of class Solution
+            queue = solution.reverseQueue(queue);
+
+            // Printing the elements of the reversed queue
+            while (!queue.isEmpty()) {
+                int value = queue.peek();
+                queue.poll();
+                System.out.print(value + " ");
             }
             System.out.println();
-        
-System.out.println("~");
-}
+        }
     }
 }
+
 // } Driver Code Ends
 
 
-//User function Template for Java
-/*Complete the function below*/
-class GfG{
-    //Function to reverse the queue.
-    public Queue<Integer> rev(Queue<Integer> q){
-        //add code here.
-        
+// User function Template for Java
+class Solution {
+    // Function to reverse the queue.
+    public Queue<Integer> reverseQueue(Queue<Integer> queue) {
+        // code here.
         Stack<Integer> s = new Stack<>();
-        
-        while(!q.isEmpty()){
-            s.push(q.remove());
+        while(!queue.isEmpty()){
+            s.push(queue.remove());
         }
         
         while(!s.isEmpty()){
-            q.add(s.pop());
+            queue.add(s.pop());
         }
         
-        return q;
+        return queue;
     }
 }
