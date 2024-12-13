@@ -63,26 +63,23 @@ System.out.println("~");
 class Solution {
     public static ArrayList<Integer> rearrangeQueue(int N, Queue<Integer> q) {
         // code here
-            Queue<Integer> firstHalf = new LinkedList<>();
-            
-            int size = q.size();
-            
-            for(int i=0;i<size/2;i++){
-                firstHalf.add(q.remove());
-            }
-            
-            while(!firstHalf.isEmpty()){
-                q.add(firstHalf.remove());
-                q.add(q.remove());
-            }
-            
-            ArrayList<Integer> ans = new ArrayList<>();
-            
-            while(!q.isEmpty()){
-                ans.add(q.remove());
-            }
-            
-            return ans;
+        Queue<Integer> firstHalf = new LinkedList<>();
+        int size = q.size();
+        for(int i=0;i<size/2;i++){
+            firstHalf.add(q.remove());
+        }
+        
+        while(!firstHalf.isEmpty()){
+            q.add(firstHalf.remove());
+            q.add(q.remove());
+        }
+        
+        ArrayList<Integer> ans = new ArrayList<>();
+        while(!q.isEmpty()){
+            ans.add(q.remove());
+        }
+        
+        return ans;
     }
 }
         
