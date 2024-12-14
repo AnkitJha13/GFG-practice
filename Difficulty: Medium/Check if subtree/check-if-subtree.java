@@ -129,21 +129,18 @@ System.out.println("~");
 }*/
 
 class Solution {
-    private static boolean isIdentical(Node node , Node S){
-        if(node == null && S == null){
-            return true;
-        }
-        else if(node == null || S == null || node.data != S.data){
+    private static boolean isIdentical(Node T, Node S){
+        if(T == null && S == null) return true;
+        
+        if(T == null || S == null || T.data != S.data) return false;
+        
+        if(!isIdentical(T.left, S.left)){
             return false;
         }
         
-        if(!isIdentical(node.left, S.left)){
+        if(!isIdentical(T.right, S.right)){
             return false;
         }
-        if(!isIdentical(node.right, S.right)){
-            return false;
-        }
-        
         
         return true;
     }
@@ -154,11 +151,10 @@ class Solution {
         }
         
         if(T.data == S.data){
-            if(isIdentical(T,S)){
+            if(isIdentical(T, S)){
                 return true;
             }
         }
-        
         
         return isSubtree(T.left, S) || isSubtree(T.right, S);
     }
