@@ -26,57 +26,52 @@ class Node{
 class Solution {
     // Function to return a list of nodes visible from the top view
     // from left to right in Binary Tree.
-    static class Info {
+    static class Info{
         Node node;
         int hd;
-        
-        public Info(Node node, int hd) {
+        public Info(Node node, int hd){
             this.node = node;
             this.hd = hd;
         }
     }
-
     static ArrayList<Integer> topView(Node root) {
+        // code here
         ArrayList<Integer> result = new ArrayList<>();
-        if (root == null) return result;
-
-        // Queue for level order traversal
+        if(root == null){
+            return result;
+        }
         Queue<Info> q = new LinkedList<>();
-        // Map to store the first node at each horizontal distance
-        HashMap<Integer, Node> map = new HashMap<>();
-
         int min = 0, max = 0;
-        q.add(new Info(root, 0));   // Root hd is always 0
-
-        while (!q.isEmpty()) {
+        HashMap<Integer, Node> map = new HashMap<>();
+        q.add(new Info(root, 0));
+        
+        while(!q.isEmpty()){
             Info curr = q.remove();
-
-            // First time this horizontal distance is encountered
-            if (!map.containsKey(curr.hd)) {
+            
+            if(!map.containsKey(curr.hd)){
                 map.put(curr.hd, curr.node);
             }
-
-            // Add left child with hd - 1
-            if (curr.node.left != null) {
-                q.add(new Info(curr.node.left, curr.hd - 1));
-                min = Math.min(min, curr.hd - 1);
+            
+            if(curr.node.left != null){
+                q.add(new Info(curr.node.left, curr.hd-1));
+                min = Math.min(min, curr.hd-1);
             }
-
-            // Add right child with hd + 1
-            if (curr.node.right != null) {
-                q.add(new Info(curr.node.right, curr.hd + 1));
-                max = Math.max(max, curr.hd + 1);
+            
+            if(curr.node.right != null){
+                q.add(new Info(curr.node.right, curr.hd+1));
+                max = Math.max(max, curr.hd+1);
             }
         }
-
-        // Add nodes to result in order of horizontal distance
-        for (int i = min; i <= max; i++) {
+        
+        
+        for(int i=min;i<=max;i++){
             result.add(map.get(i).data);
         }
-
+        
         return result;
+        
     }
-}   
+}
 
 //{ Driver Code Starts.
 
@@ -175,9 +170,9 @@ public class Tree {
             System.out.println();
 
             t--;
-        
-System.out.println("~");
-}
+
+            System.out.println("~");
+        }
     }
 }
 // } Driver Code Ends
