@@ -1,13 +1,14 @@
 //{ Driver Code Starts
-import java.util.LinkedList;
-import java.util.Queue;
 import java.io.*;
 import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Node {
     int data;
     Node left;
     Node right;
+
     Node(int data) {
         this.data = data;
         left = null;
@@ -73,26 +74,22 @@ class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br =
-            new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int t = Integer.parseInt(br.readLine().trim());
 
         while (t-- > 0) {
             String s = br.readLine().trim();
             Node root = buildTree(s);
-            String[] ab = br.readLine().trim().split(" ");
-            int a = Integer.parseInt(ab[0]);
-            int b = Integer.parseInt(ab[1]);
+
+            int a = Integer.parseInt(br.readLine().trim());
+            int b = Integer.parseInt(br.readLine().trim());
 
             GfG g = new GfG();
             System.out.println(g.findDist(root, a, b));
-        
-System.out.println("~");
-}
+        }
     }
 }
-
 
 // } Driver Code Ends
 
@@ -112,55 +109,54 @@ class Node
 /* Should return minimum distance between a and b
    in a tree with given root*/
 class GfG {
-
-    // Helper function to find the Lowest Common Ancestor (LCA) of two nodes
-    private static Node findLca(Node root, int n1, int n2) {
-        if (root == null || root.data == n1 || root.data == n2) {
+    private static Node findLca(Node root, int a, int b){
+        if(root == null || root.data == a || root.data == b){
             return root;
         }
-
-        Node left = findLca(root.left, n1, n2);
-        Node right = findLca(root.right, n1, n2);
-
-        if (left == null) {
+        
+        Node left = findLca(root.left, a, b);
+        Node right = findLca(root.right, a, b);
+        
+        if(left == null) {
             return right;
         }
-
-        if (right == null) {
+        
+        if(right == null){
             return left;
         }
-
+        
         return root;
     }
-
-    // Helper function to find the distance from a given root to a target node
-    private static int lcaDist(Node root, int n) {
-        if (root == null) {
+    
+    private static int lcaDist(Node root, int n){
+        if(root == null){
             return -1;
         }
-
-        if (root.data == n) { // Fix the comparison to check root.data
+        
+        if(root.data == n){
             return 0;
         }
-
+        
         int leftDist = lcaDist(root.left, n);
         int rightDist = lcaDist(root.right, n);
-
-        if (leftDist == -1 && rightDist == -1) {
-            return -1; // Target node not found
-        } else if (leftDist == -1) {
-            return rightDist + 1;
-        } else {
-            return leftDist + 1;
+        
+        if(leftDist == -1 && rightDist == -1){
+            return -1;
+        }
+        
+        if(leftDist == -1){
+            return rightDist+1;
+        }
+        else{
+            return leftDist+1;
         }
     }
-
-    // Function to find the minimum distance between two nodes
     int findDist(Node root, int a, int b) {
-        Node lca = findLca(root, a, b); // Find the LCA of the two nodes
-        int dist1 = lcaDist(lca, a); // Distance from LCA to node a
-        int dist2 = lcaDist(lca, b); // Distance from LCA to node b
-
-        return dist1 + dist2; // Sum of distances
+        // Your code here
+        Node lca = findLca(root, a, b);
+        int dist1 = lcaDist(lca, a);
+        int dist2 = lcaDist(lca, b);
+        
+        return dist1 + dist2;
     }
 }
