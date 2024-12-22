@@ -126,43 +126,39 @@ class Node {
 */
 
 class Solution
-{   
+{
     static int ans = -1;
-    public static int find(Node root, int k, int n) {
+    
+    public int find(Node root, int k, int n){
         
-        if(root == null) {
+        if(root == null){
             return -1;
         }
         
-        if(root.data == n) {
+        if(root.data == n){
             return 0;
         }
         
         int left = find(root.left, k, n);
         int right = find(root.right, k, n);
         
-        if(left == -1 && right == -1) {
+        if(left == -1 && right == -1){
             return -1;
         }
         
         int max = Math.max(left, right);
         
-        if(max + 1 == k) {
+        if(max + 1 == k){
             ans = root.data;
         }
         
-        return max + 1;
-        
+        return max+1;
     }
-    
     public int kthAncestor(Node root, int k, int node)
     {
         //Write your code here
         ans = -1;
         find(root, k, node);
         return ans;
-        
     }
-    
-    
 }
