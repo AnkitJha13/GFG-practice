@@ -122,25 +122,32 @@ System.out.println("~");
 
 class Solution
 {   
-    public static void solve(Node root, int low,int high,ArrayList<Integer> list){
+    //Function to return a list of BST elements in a given range.
+    
+    public static void solve(Node root, int low, int high, ArrayList<Integer> list){
         if(root == null){
-            return;
+            return ;
         }
         
         if(root.data >= low && root.data <= high){
-            solve(root.left,low,high,list);
+            solve(root.left, low, high, list);
             list.add(root.data);
-            solve(root.right,low,high,list);
+            solve(root.right, low, high, list);
         }
-        else if (root.data >= high){
-            solve(root.left,low ,high,list);
-        }else{
-            solve(root.right,low ,high,list);
+        
+        else if(root.data <= low){
+            solve(root.right, low, high, list);
         }
+        else{
+            solve(root.left, low, high, list);
+        }
+        
     }
-    public static ArrayList<Integer> printNearNodes(Node root,int low,int high) {
-       ArrayList<Integer> list = new ArrayList<>();
-       solve(root,low ,high,list);
-       return list;
+	public static ArrayList<Integer> printNearNodes(Node root,int low,int high) {
+        // code here.
+        ArrayList<Integer> list = new ArrayList<>();
+        solve(root, low, high, list);
+        return list;
     }
+    
 }
