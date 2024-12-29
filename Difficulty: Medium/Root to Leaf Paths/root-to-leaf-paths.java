@@ -150,11 +150,8 @@ class Node
 */
 
 class Solution {
-    private static void findPaths(Node root, ArrayList<Integer> currentPath,
-    ArrayList<ArrayList<Integer>> result){
-        if(root == null){
-            return ;
-        }
+    public static void findPaths(Node root, ArrayList<Integer> currentPath, ArrayList<ArrayList<Integer>> result){
+        if(root == null) return ;
         
         currentPath.add(root.data);
         
@@ -167,14 +164,12 @@ class Solution {
         }
         
         currentPath.remove(currentPath.size()-1);
+        
     }
-    
     public static ArrayList<ArrayList<Integer>> Paths(Node root) {
         // code here
         ArrayList<ArrayList<Integer>> result = new ArrayList<>();
-        
         findPaths(root, new ArrayList<>(), result);
-        
         return result;
     }
 }
