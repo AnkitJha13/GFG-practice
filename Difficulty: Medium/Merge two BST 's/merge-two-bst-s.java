@@ -79,14 +79,14 @@ class GFG {
             Node root2 = buildTree(s);
 
             Solution T = new Solution();
-            List<Integer> ans = T.merge(root1, root2);
+            ArrayList<Integer> ans = T.merge(root1, root2);
             for (int i = 0; i < ans.size(); i++) System.out.print(ans.get(i) + " ");
             System.out.println();
 
             t--;
-        
-System.out.println("~");
-}
+
+            System.out.println("~");
+        }
     }
 }
 
@@ -110,66 +110,64 @@ class Node
 
 */
 class Solution {
-    // Function to return the in-order traversal of a BST
-    public void getInorder(Node root, List<Integer> arr) {
-        if (root == null) {
-            return;
+    // Function to return a list of integers denoting the node
+    // values of both the BST in a sorted order.
+    public void getInorder(Node root, List<Integer> ans){
+        if(root == null){
+            return ;
         }
-
-        getInorder(root.left, arr);  // Traverse left subtree
-        arr.add(root.data);          // Add current node's value
-        getInorder(root.right, arr); // Traverse right subtree
+        
+        getInorder(root.left, ans);
+        ans.add(root.data);
+        getInorder(root.right, ans);
     }
-
-    // Function to create a balanced BST from a sorted array
-    public Node createBST(List<Integer> arr, int start, int end) {
-        if (start > end) {
-            return null;
-        }
-
-        int mid = (start + end) / 2;
-        Node root = new Node(arr.get(mid));  // Create root node
-        root.left = createBST(arr, start, mid - 1); // Create left subtree
-        root.right = createBST(arr, mid + 1, end);  // Create right subtree
-
-        return root;
-    }
-
-    // Function to merge two BSTs and return in-order traversal list
-    public List<Integer> merge(Node root1, Node root2) {
-        List<Integer> arr1 = new ArrayList<>();
-        getInorder(root1, arr1);  // Get in-order traversal of root1
-
-        List<Integer> arr2 = new ArrayList<>();
-        getInorder(root2, arr2);  // Get in-order traversal of root2
-
-        // Merge the two sorted lists
-        List<Integer> mergedArr = new ArrayList<>();
-        int i = 0, j = 0;
-
-        // Merge two sorted arrays into one
-        while (i < arr1.size() && j < arr2.size()) {
-            if (arr1.get(i) <= arr2.get(j)) {
+    
+    // public void Node createBST(List<Integer> arr, int start, int end){
+    //     if(start > end){
+    //         return null;
+    //     }
+        
+    //     int mid = (start + end)/2;
+        
+    //     Node root = new Node(arr.get(mid));
+    //     root.left = createBST(arr, start, mid-1);
+    //     root.right = createBST(arr, mid+1, end);
+        
+    //     return root;
+    // }
+    
+    public ArrayList<Integer> merge(Node root1, Node root2) {
+        // Write your code here
+        ArrayList<Integer> arr1 = new ArrayList<>();
+        getInorder(root1, arr1);
+        
+        ArrayList<Integer> arr2 = new ArrayList<>();
+        getInorder(root2, arr2);
+        
+        ArrayList<Integer> mergedArr = new ArrayList<>();
+        int i=0, j=0;
+        
+        while(i < arr1.size() && j < arr2.size()){
+            if(arr1.get(i) < arr2.get(j)){
                 mergedArr.add(arr1.get(i));
                 i++;
-            } else {
+            }
+            else{
                 mergedArr.add(arr2.get(j));
                 j++;
             }
         }
-
-        // Add remaining elements from arr1
-        while (i < arr1.size()) {
+        
+        while(i < arr1.size()){
             mergedArr.add(arr1.get(i));
             i++;
         }
-
-        // Add remaining elements from arr2
-        while (j < arr2.size()) {
+        
+        while(j < arr2.size()){
             mergedArr.add(arr2.get(j));
             j++;
         }
-
-        return mergedArr;  // Return the merged list of integers
+        
+        return mergedArr;
     }
 }
