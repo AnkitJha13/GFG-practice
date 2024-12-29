@@ -115,18 +115,21 @@ class Solution {
         if(root == null){
             return true;
         }
-        if(min != null && root.data <= min.data){
+        
+        if(min!=null && root.data <= min.data){
             return false;
         }
-        else if(max != null && root.data >= max.data){
+        
+        if(max!=null && max.data <= root.data){
             return false;
         }
+        
         
         return isBinarySearchTree(root.left, min, root) && isBinarySearchTree(root.right, root, max);
     }
     boolean isBST(Node root) {
         // code here.
-        return isBinarySearchTree(root, null, null);
         
+        return isBinarySearchTree(root, null, null);
     }
 }
