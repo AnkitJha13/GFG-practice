@@ -28,7 +28,7 @@ public class Main {
             int[] arr = new int[array.size()];
             int idx = 0;
             for (int i : array) arr[idx++] = i;
-            int res = new Solution().findSubArraySum(k, arr);
+            int res = new Solution().countSubarrays(arr, k);
 
             System.out.print(res);
             System.out.println();
@@ -41,23 +41,24 @@ public class Main {
 
 // User function Template for Java
 class Solution {
-    public int findSubArraySum(int k, int arr[]) {
+    public int countSubarrays(int arr[], int k) {
         // code here
-        int count = 0;
-        int sum = 0;
+        int count = 0, sum = 0;
         
         Map<Integer, Integer> mpp = new HashMap<>();
+        
         mpp.put(0, 1);
         
         for(int i=0;i<arr.length;i++){
             sum += arr[i];
             
-            if(mpp.containsKey(sum-k)){
-                count += mpp.get(sum-k);
+            if(mpp.containsKey(sum - k)){
+                count += mpp.get(sum - k);
             }
             
             mpp.put(sum, mpp.getOrDefault(sum, 0) + 1);
         }
+        
         return count;
     }
 }
