@@ -60,10 +60,10 @@ class Solution {
             bfs.add(node);
             
             for(Integer neighbor : adj.get(node)){
-               if(vis[neighbor] == false){
-                   vis[neighbor] = true;
-                   q.add(neighbor);
-               } 
+                if(vis[neighbor] == false){
+                    vis[neighbor] = true;
+                    q.add(neighbor);
+                }
             }
         }
         
