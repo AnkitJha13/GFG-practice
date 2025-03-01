@@ -51,48 +51,42 @@ public class GFG {
 
 
 class Solution {
-     private ArrayList<Integer> bfs(int start, ArrayList<ArrayList<Integer>> adj, boolean[] vis) {
-        ArrayList<Integer> singleComponent = new ArrayList<>();
-        Queue<Integer> q = new LinkedList<>(); // Using Queue with LinkedList
+    // Helper function for DFS traversal
+    private void dfsHelper(int node, ArrayList<ArrayList<Integer>> adj, boolean[] vis, ArrayList<Integer> component) {
+        vis[node] = true;
+        component.add(node);
+        
+        // Sort neighbors before traversing to ensure lexicographical order
+        Collections.sort(adj.get(node));
 
-        q.add(start);
-        vis[start] = true;
-
-        while (!q.isEmpty()) {
-            int node = q.remove();
-            singleComponent.add(node);
-           
-            // Sorting neighbors to ensure BFS follows a consistent order
-            Collections.sort(adj.get(node));
-
-            for (int neighbor : adj.get(node)) {
-                if (!vis[neighbor]) {
-                    vis[neighbor] = true;
-                    q.add(neighbor);
-                }
+        for (Integer neighbor : adj.get(node)) {
+            if (!vis[neighbor]) {
+                dfsHelper(neighbor, adj, vis, component);
             }
         }
-        return singleComponent;
     }
-    
-    public ArrayList<ArrayList<Integer>> connectedcomponents(int V, int[][] edges) {
+
+    public ArrayList<ArrayList<Integer>> connectedcomponents(int v, int[][] edges) {
         // Step 1: Build adjacency list
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
+        for (int i = 0; i < v; i++) {
+            adj.add(new ArrayList<>());
+        }
 
         for (int[] edge : edges) {
             adj.get(edge[0]).add(edge[1]);
             adj.get(edge[1]).add(edge[0]); // Undirected graph
         }
 
+        // Step 2: Find connected components using DFS
         ArrayList<ArrayList<Integer>> components = new ArrayList<>();
-        boolean[] vis = new boolean[V];
+        boolean[] vis = new boolean[v];
 
-        // Step 2: Find all connected components using BFS
-        for (int i = 0; i < V; i++) {
-            if (!vis[i]) {
-                ArrayList<Integer> component = bfs(i, adj, vis);
-                Collections.sort(component); // Sorting the component for ordered output
+        for (int i = 0; i < v; i++) {
+            if (!vis[i]) { // If node is not visited, it's a new component
+                ArrayList<Integer> component = new ArrayList<>();
+                dfsHelper(i, adj, vis, component);
+                Collections.sort(component); // Sort component before adding
                 components.add(component);
             }
         }
@@ -100,5 +94,3 @@ class Solution {
         return components;
     }
 }
-
-
