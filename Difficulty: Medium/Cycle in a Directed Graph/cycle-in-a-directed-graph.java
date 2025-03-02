@@ -1,0 +1,71 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class DriverClass {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while (t-- > 0) {
+            ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+            int V = sc.nextInt();
+            int E = sc.nextInt();
+            for (int i = 0; i < V; i++) list.add(i, new ArrayList<Integer>());
+            for (int i = 0; i < E; i++) {
+                int u = sc.nextInt();
+                int v = sc.nextInt();
+                list.get(u).add(v);
+            }
+            if (new Solution().isCyclic(list) == true)
+                System.out.println("1");
+            else
+                System.out.println("0");
+
+            System.out.println("~");
+        }
+    }
+}
+// } Driver Code Ends
+
+
+/*Complete the function below*/
+
+class Solution {
+    private boolean dfsCycle(int current, ArrayList<ArrayList<Integer>> adj, boolean[] vis, boolean[] pathVisited) {
+        vis[current] = true;
+        pathVisited[current] = true; // Mark current node in DFS path
+
+        for (int neighbor : adj.get(current)) {
+            if (!vis[neighbor]) { // If not visited, do DFS
+                if (dfsCycle(neighbor, adj, vis, pathVisited)) {
+                    return true;
+                }
+            } else if (pathVisited[neighbor]) { 
+                return true; // Cycle detected (back edge)
+            }
+        }
+
+        pathVisited[current] = false; // Remove from current path before returning
+        return false;
+    }
+
+    // Function to detect cycle in a directed graph
+    public boolean isCyclic(ArrayList<ArrayList<Integer>> adj) {
+        int V = adj.size();
+        boolean[] vis = new boolean[V];
+        boolean[] pathVisited = new boolean[V];
+
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) { // Start DFS from unvisited nodes
+                if (dfsCycle(i, adj, vis, pathVisited)) {
+                    return true; // If cycle found, return true
+                }
+            }
+        }
+        return false; // No cycle found
+    }
+}
+
+
