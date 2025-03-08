@@ -59,41 +59,48 @@ class iPair {
     int first, second;
 
     iPair(int first, int second) {
-        this.first = first;    // this stores the node number
-        this.second = second;  // this stores distance
+        this.first = first;
+        this.second = second;
     }
 }
 */
 
+// User function Template for Java
 class Solution {
-    public ArrayList<Integer> dijkstra(ArrayList<ArrayList<iPair>> adj, int src) {
+    // Function to find the shortest distance of all the vertices
+    // from the source vertex src.
+    ArrayList<Integer> dijkstra(ArrayList<ArrayList<iPair>> adj, int src) {
+        // Write your code here
+        
         int V = adj.size();
         ArrayList<Integer> dis = new ArrayList<>();
         
-       
-        for (int i = 0; i < V; i++) {
+        for(int i=0;i<V;i++){
             dis.add(Integer.MAX_VALUE);
         }
+        
         dis.set(src, 0);
-
+        
         PriorityQueue<iPair> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.second));
+        
         pq.add(new iPair(src, 0));
-
-        while (!pq.isEmpty()) {
+        
+        while(!pq.isEmpty()){
             iPair curr = pq.remove();
             int u = curr.first;
             int d = curr.second;
-
-            for (iPair p : adj.get(u)) {
+            
+            for(iPair p : adj.get(u)){
                 int v = p.first;
                 int wt = p.second;
-
-                if (dis.get(u) + wt < dis.get(v)) { // dis[u] + wt(u, v) = dis[v]
+                
+                if(dis.get(u) + wt < dis.get(v)){
                     dis.set(v, dis.get(u) + wt);
                     pq.add(new iPair(v, dis.get(v)));
                 }
             }
         }
+        
         return dis;
     }
 }
