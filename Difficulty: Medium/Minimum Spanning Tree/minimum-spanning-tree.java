@@ -38,31 +38,88 @@ public class Main {
 
 // User function Template for Java
 
+
 class Solution {
-    static int spanningTree(int V, int E, List<List<int[]>> adj) {
-        // Code Here.
-        PriorityQueue<int[]> pq=new PriorityQueue<>(Comparator.comparingInt(a->a[1])); //sorting according to weights
-        int[] visited=new int[V];
-        int sum=0;
-        pq.add(new int[]{0,0}); //node,weight;
-        
-        while(!pq.isEmpty()){
-            int[] curr=pq.remove();
-            int u=curr[0];
-            int wt=curr[1];
-            if(visited[u]==1) continue;
-            
-            visited[u]=1;
-            sum+=wt;
-            for(int[] neighbor:adj.get(u)){
-                int v=neighbor[0];
-                int w=neighbor[1];
-                if(visited[v]==0) pq.add(new int[]{v,w});
-            }
-            
+    static class Edge implements Comparable<Edge> {
+        int src, dest, weight;
+
+        Edge(int src, int dest, int weight) {
+            this.src = src;
+            this.dest = dest;
+            this.weight = weight;
         }
-        return sum;
-        
+
+        @Override
+        public int compareTo(Edge other) {
+            return this.weight - other.weight;
+        }
+    }
+
+    // Find parent with path compression
+    static int findParent(int[] parent, int node) {
+        if (parent[node] == node) {
+            return node;
+        }
+        return parent[node] = findParent(parent, parent[node]);
+    }
+
+    // Union by rank
+    static void unionNodes(int[] parent, int[] rank, int node1, int node2) {
+        int root1 = findParent(parent, node1);
+        int root2 = findParent(parent, node2);
+
+        if (root1 != root2) {
+            if (rank[root1] > rank[root2]) {
+                parent[root2] = root1;
+            } else if (rank[root1] < rank[root2]) {
+                parent[root1] = root2;
+            } else {
+                parent[root1] = root2;
+                rank[root2]++;
+            }
+        }
+    }
+
+    static int spanningTree(int V, int E, List<List<int[]>> adj) {
+        List<Edge> edges = new ArrayList<>();
+
+        // Step 1: Convert adjacency list to edge list
+        for (int i = 0; i < V; i++) {
+            for (int[] neighbor : adj.get(i)) {
+                int dest = neighbor[0];
+                int weight = neighbor[1];
+                if (i < dest) {
+                    edges.add(new Edge(i, dest, weight));
+                }
+            }
+        }
+
+        // Step 2: Sort edges based on weight
+        Collections.sort(edges);
+
+        // Step 3: Initialize Union-Find
+        int[] parent = new int[V];
+        int[] rank = new int[V];
+        for (int i = 0; i < V; i++) {
+            parent[i] = i;
+            rank[i] = 0;
+        }
+
+        int mstWeight = 0;
+        int edgeCount = 0;
+
+        // Step 4: Kruskal's Algorithm
+        for (Edge edge : edges) {
+            if (findParent(parent, edge.src) != findParent(parent, edge.dest)) {
+                mstWeight += edge.weight;
+                unionNodes(parent, rank, edge.src, edge.dest);
+                edgeCount++;
+
+                if (edgeCount == V - 1) break;
+            }
+        }
+
+        return mstWeight;
     }
 }
 
