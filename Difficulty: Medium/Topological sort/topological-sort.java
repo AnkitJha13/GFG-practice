@@ -55,41 +55,35 @@ class Main {
 
 
 class Solution {
+    static void dfs(int node, ArrayList<ArrayList<Integer>> adj, boolean[] vis, Stack<Integer> s){
+        vis[node] = true;
+        
+        for(int neighbor : adj.get(node)){
+            if(!vis[neighbor]){
+                dfs(neighbor, adj, vis, s);
+            }
+        }
+        
+        s.push(node);
+    }
     // Function to return list containing vertices in Topological order.
     static ArrayList<Integer> topologicalSort(ArrayList<ArrayList<Integer>> adj) {
-        int V = adj.size();  // Get number of vertices
-        ArrayList<Integer> topo = new ArrayList<>();
-        int[] inDegree = new int[V];  // Step 1: Compute in-degree
-
-        // Compute in-degree for each node
-        for (int i = 0; i < V; i++) {
-            for (int neighbor : adj.get(i)) {
-                inDegree[neighbor]++;
+        // Your code here
+        ArrayList<Integer> res = new ArrayList<>();
+        int n = adj.size();
+        boolean[] vis = new boolean[n];
+        Stack<Integer> s = new Stack<>();
+        
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                dfs(i, adj, vis, s);
             }
         }
-
-        // Step 2: Push nodes with in-degree 0 into queue
-        Queue<Integer> q = new LinkedList<>();
-        for (int i = 0; i < V; i++) {
-            if (inDegree[i] == 0) {
-                q.add(i);
-            }
+        
+        while(!s.isEmpty()){
+            res.add(s.pop());
         }
-
-        // Step 3: Process queue
-        while (!q.isEmpty()) {
-            int node = q.poll();
-            topo.add(node);
-
-            // Reduce in-degree of neighbors
-            for (int neighbor : adj.get(node)) {
-                inDegree[neighbor]--;
-                if (inDegree[neighbor] == 0) {
-                    q.add(neighbor);
-                }
-            }
-        }
-
-        return topo;
+        
+        return res;
     }
 }
